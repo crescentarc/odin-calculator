@@ -1,31 +1,70 @@
-//is called with "Add" button, adds two input numbers and displays sum
+//calls below operator functions when corresponding buttons are clicked
+function operate() {
+    document.getElementById(`add`).addEventListener(`click`, function() {
+        add();
+    });
+
+    document.getElementById(`subtract`).addEventListener(`click`, function() {
+        subtract();
+    });
+
+    document.getElementById(`multiply`).addEventListener(`click`, function() {
+        multiply();
+    });
+
+    document.getElementById(`divide`).addEventListener(`click`, function() {
+        divide();
+    }); 
+}
+
+//adds 2 input numbers and displays sum
 function add() {
-    let num1 = document.getElementById(`addition1`).value;
-    let num2 = document.getElementById(`addition2`).value;
+    let num1 = document.getElementById(`num1`).value;
+    let num2 = document.getElementById(`num2`).value;
     let sum = num1 + num2;
-    document.getElementById(`sum`).innerText = sum;
+    document.getElementById(`answer`).innerText = sum;
+
+    if (num1 == `` || num2 == ``) {
+        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
+    }
 }
 
-//is called with "Subtract" button, subtracts two input numbers and displays difference
+//subtracts 2 input numbers and displays difference
 function subtract() {
-    let num1 = document.getElementById(`subtraction1`).value;
-    let num2 = document.getElementById(`subtraction2`).value;
+    let num1 = document.getElementById(`num1`).value;
+    let num2 = document.getElementById(`num2`).value;
     let difference = num1 - num2;
-    document.getElementById(`difference`).innerText = difference;
+    document.getElementById(`answer`).innerText = difference;
+
+    if (num1 == `` || num2 == ``) {
+        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
+    }
 }
 
-//is called with "Multiply" button, multiplies two input numbers and displays product
+//multiplies 2 input numbers and displays product
 function multiply() {
-    let num1 = document.getElementById(`multiplication1`).value;
-    let num2 = document.getElementById(`multiplication2`).value;
+    let num1 = document.getElementById(`num1`).value;
+    let num2 = document.getElementById(`num2`).value;
     let product = num1 * num2;
-    document.getElementById(`product`).innerText = product;
+    document.getElementById(`answer`).innerText = product;
+
+    if (num1 == `` || num2 == ``) {
+        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
+    }
 }
 
-//is called with "Divide" button, divides two input numbers and displays quotient
+//divides 2 input numbers and displays quotient
 function divide() {
-    let num1 = document.getElementById(`division1`).value;
-    let num2 = document.getElementById(`division2`).value;
+    let num1 = document.getElementById(`num1`).value;
+    let num2 = document.getElementById(`num2`).value;
     let quotient = num1 / num2;
-    document.getElementById(`quotient`).innerText = quotient;
+    document.getElementById(`answer`).innerText = quotient;
+
+    if (num1 == `` || num2 == ``) {
+        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
+    }
 }
+
+//load page with event listeners for buttons active
+operate();
+

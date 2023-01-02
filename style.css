@@ -1,3 +1,22 @@
-body {
+#input-area {
     display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#button-area {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#operator-area {
+    display: flex;
+    justify-content: center;
+}
+
+#answer {
+    text-align: center;
 }
