@@ -1,3 +1,4 @@
+/*
 //calls below operator functions when corresponding buttons are clicked
 function operate() {
     document.getElementById(`add`).addEventListener(`click`, function() {
@@ -67,4 +68,43 @@ function divide() {
 
 //load page with event listeners for buttons active
 operate();
+*/
+
+//global variables for buttons
+let clearButton = document.querySelector(`.all-clear`);
+let equal = document.querySelector(`.equal-sign`);
+let decimal = document.querySelector(`.decimal`);
+let number = document.querySelectorAll(`.number`);
+let operator = document.querySelectorAll(`.operator`);
+let screen = document.querySelector(`.calculator-screen`);
+
+//allow number buttons to be entered onto screen
+number.forEach((number) => number.addEventListener(`click`, function(e) {
+    inputNumber(e.target.value)
+}))
+
+function inputNumber(num) {
+    screen.value += num;
+}
+
+//add just 1 decimal to screen
+decimal.addEventListener(`click`, inputDecimal);
+
+function inputDecimal() {
+    if(screen.value.includes(`.`)) {
+        return
+    }
+    else {
+        screen.value += `.`
+    }
+}
+
+//allow AC button to clear screen
+clearButton.addEventListener(`click`, clear);
+
+function clear() {
+    screen.value = ``;
+}
+
+
 
