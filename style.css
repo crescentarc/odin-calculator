@@ -49,13 +49,23 @@ html {
     height: 100px;
     background-color: rgb(184, 230, 184);
     text-align: right;
-    font-size: 4em
+    font-size: 4em;
+    border-top: none;
+}
+
+.calculate-screen {
+    width: 100%;
+    background-color: rgb(184, 230, 184);
+    height: 50px;
+    text-align: right;
+    font-size: 3em;
 }
 
 button {
     height: 50px;
     background-color: rgb(224, 219, 219);
     border-radius: 5px;
+    font-size: 35px;
 }
 
 .calculator-keys {
@@ -65,16 +75,24 @@ button {
 }
 
 .equal-sign {
-    grid-row-start: 2;
-    grid-row-end: 6;
-    grid-column-start: 4;
-    grid-column-end: 5;
-    height: 100%;
     background-color: rgb(30, 162, 202);
+    grid-row-start: 3;
+    grid-column-start: 4;
+    height: 100%;
+    grid-row-end: 6;
+}
+
+.operator {
+    color: rgb(52, 88, 207);
 }
 
 .all-clear {
     background-color: rgb(219, 119, 119);
+}
+
+.backspace {
+    grid-row-start: 2;
+    grid-column-start: 4;
 }
 
   

@@ -77,6 +77,7 @@ let decimal = document.querySelector(`.decimal`);
 let number = document.querySelectorAll(`.number`);
 let operator = document.querySelectorAll(`.operator`);
 let screen = document.querySelector(`.calculator-screen`);
+let backspace = document.querySelector(`.backspace`);
 
 //allow number buttons to be entered onto screen
 number.forEach((number) => number.addEventListener(`click`, function(e) {
@@ -105,6 +106,15 @@ clearButton.addEventListener(`click`, clear);
 function clear() {
     screen.value = ``;
 }
+
+//allow backspace button to delete characters on screen
+backspace.addEventListener(`click`, deleteCharacter);
+
+function deleteCharacter () {
+    screen.value = screen.value.slice(0, -1);
+}
+
+
 
 
 
