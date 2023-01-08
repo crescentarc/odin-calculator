@@ -76,27 +76,49 @@ let equal = document.querySelector(`.equal-sign`);
 let decimal = document.querySelector(`.decimal`);
 let number = document.querySelectorAll(`.number`);
 let operator = document.querySelectorAll(`.operator`);
-let screen = document.querySelector(`.calculator-screen`);
+let currentScreen = document.querySelector(`.current-screen`);
+let previousScreen = document.querySelector(`.previous-screen`);
 let backspace = document.querySelector(`.backspace`);
 
+//set default value for screens and operators
+let operatorValue = ``;
+let previousValue = ``;
+let currentValue = ``;
+
 //allow number buttons to be entered onto screen
-number.forEach((number) => number.addEventListener(`click`, function(e) {
-    inputNumber(e.target.value)
+number.forEach((number) => number.addEventListener(`click`, function (e) {
+    inputNumber(e.target.value);
+    currentScreen.value = currentValue;
 }))
 
 function inputNumber(num) {
-    screen.value += num;
+    if(currentValue.length <= 10) {
+        currentValue += num;
+    }
 }
 
-//add just 1 decimal to screen
-decimal.addEventListener(`click`, inputDecimal);
+//allow operators to be entered onto screen
+operator.forEach((op) => op.addEventListener(`click`, function (e) {
+    utilizeOperator(e.target.value);
+    previousScreen.value = previousValue + ` ` + operatorValue;
+    currentScreen.value = currentValue;
+}))
+
+function utilizeOperator(op) {
+    operatorValue = op;
+    previousValue = currentValue;
+    currentValue = ``;
+}
+
+//add just 1 decimal to input screen
+decimal.addEventListener(`click`, function() {
+    inputDecimal();
+})
 
 function inputDecimal() {
-    if(screen.value.includes(`.`)) {
-        return
-    }
-    else {
-        screen.value += `.`
+    if(!currentValue.includes(`.`)) {
+        currentValue += `.`;
+        currentScreen.value = currentValue;
     }
 }
 
@@ -104,17 +126,22 @@ function inputDecimal() {
 clearButton.addEventListener(`click`, clear);
 
 function clear() {
-    screen.value = ``;
+    previousValue = ``;
+    currentValue = ``;
+    operatorValue = ``;
+    previousScreen.value = currentValue;
+    currentScreen.value = currentValue;
 }
 
-//allow backspace button to delete characters on screen
-backspace.addEventListener(`click`, deleteCharacter);
+//allow backspace button to delete 1 screen character per press
+backspace.addEventListener(`click`, function() {
+    deleteCharacter();
+})
 
-function deleteCharacter () {
-    screen.value = screen.value.slice(0, -1);
+function deleteCharacter() {
+    currentValue = currentValue.slice(0, -1);
+    currentScreen.value = currentValue;
 }
-
-
 
 
 
