@@ -1,75 +1,3 @@
-/*
-//calls below operator functions when corresponding buttons are clicked
-function operate() {
-    document.getElementById(`add`).addEventListener(`click`, function() {
-        add();
-    });
-
-    document.getElementById(`subtract`).addEventListener(`click`, function() {
-        subtract();
-    });
-
-    document.getElementById(`multiply`).addEventListener(`click`, function() {
-        multiply();
-    });
-
-    document.getElementById(`divide`).addEventListener(`click`, function() {
-        divide();
-    }); 
-}
-
-//adds 2 input numbers and displays sum
-function add() {
-    let num1 = document.getElementById(`num1`).value;
-    let num2 = document.getElementById(`num2`).value;
-    let sum = num1 + num2;
-    document.getElementById(`answer`).innerText = sum;
-
-    if (num1 == `` || num2 == ``) {
-        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
-    }
-}
-
-//subtracts 2 input numbers and displays difference
-function subtract() {
-    let num1 = document.getElementById(`num1`).value;
-    let num2 = document.getElementById(`num2`).value;
-    let difference = num1 - num2;
-    document.getElementById(`answer`).innerText = difference;
-
-    if (num1 == `` || num2 == ``) {
-        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
-    }
-}
-
-//multiplies 2 input numbers and displays product
-function multiply() {
-    let num1 = document.getElementById(`num1`).value;
-    let num2 = document.getElementById(`num2`).value;
-    let product = num1 * num2;
-    document.getElementById(`answer`).innerText = product;
-
-    if (num1 == `` || num2 == ``) {
-        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
-    }
-}
-
-//divides 2 input numbers and displays quotient
-function divide() {
-    let num1 = document.getElementById(`num1`).value;
-    let num2 = document.getElementById(`num2`).value;
-    let quotient = num1 / num2;
-    document.getElementById(`answer`).innerText = quotient;
-
-    if (num1 == `` || num2 == ``) {
-        document.getElementById(`answer`).innerText = `Please enter 2 numbers to operate on.`;
-    }
-}
-
-//load page with event listeners for buttons active
-operate();
-*/
-
 //global variables for buttons
 let clearButton = document.querySelector(`.all-clear`);
 let equal = document.querySelector(`.equal-sign`);
@@ -79,6 +7,10 @@ let operator = document.querySelectorAll(`.operator`);
 let currentScreen = document.querySelector(`.current-screen`);
 let previousScreen = document.querySelector(`.previous-screen`);
 let backspace = document.querySelector(`.backspace`);
+let addition = document.getElementById(`addtion`);
+let subtraction = document.getElementById(`subtraction`);
+let multiplication = document.getElementById(`multiplication`);
+let division = document.getElementById(`division`);
 
 //set default value for screens and operators
 let operatorValue = ``;
@@ -92,7 +24,7 @@ number.forEach((number) => number.addEventListener(`click`, function (e) {
 }))
 
 function inputNumber(num) {
-    if(currentValue.length <= 10) {
+    if(currentValue.length <= 20) {
         currentValue += num;
     }
 }
@@ -142,6 +74,67 @@ function deleteCharacter() {
     currentValue = currentValue.slice(0, -1);
     currentScreen.value = currentValue;
 }
+
+//allow calculated number to be rounded
+function roundNumber(num) {
+    return Math.round(num * 1000) / 1000;
+}
+
+//allow for calculations of numbers
+equal.addEventListener(`click`, function() {
+    if(currentValue != `` && previousValue != ``) {
+        operate()
+        previousScreen.value = ``;
+        if(previousValue.length <= 20) {
+            currentScreen.value = previousValue;
+        } 
+        else {
+            currentScreen.value = previousValue.slice(0, 20) + `...`;
+        }
+    }
+})
+
+function operate() {
+    previousValue = +previousValue;
+    currentValue = +currentValue;
+
+    if(operatorValue == `+`) {
+        add()
+    } else if(operatorValue == `-`) {
+        subtract()
+    } else if(operatorValue == `*`) {
+        multiply()
+    } else{
+        divide()
+    }
+
+    function add() {
+        previousValue += currentValue;
+    } 
+    
+    function subtract() {
+        previousValue -= currentValue;
+    } 
+    
+    function multiply() {
+        previousValue *= currentValue;
+    } 
+    
+    function divide() {
+       previousValue /= currentValue;
+      
+    } 
+
+    previousValue = roundNumber(previousValue);
+
+    previousValue = previousValue.toString();
+    currentValue = previousValue.toString();
+}
+
+
+
+
+
 
 
 
