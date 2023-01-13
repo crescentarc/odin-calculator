@@ -1,134 +1,120 @@
-//global variables for buttons
-let clearButton = document.querySelector(`.all-clear`);
-let equal = document.querySelector(`.equal-sign`);
-let decimal = document.querySelector(`.decimal`);
-let number = document.querySelectorAll(`.number`);
-let operator = document.querySelectorAll(`.operator`);
-let currentScreen = document.querySelector(`.current-screen`);
-let previousScreen = document.querySelector(`.previous-screen`);
-let backspace = document.querySelector(`.backspace`);
-let addition = document.getElementById(`addtion`);
-let subtraction = document.getElementById(`subtraction`);
-let multiplication = document.getElementById(`multiplication`);
-let division = document.getElementById(`division`);
+// global variables for buttons
+const numberButtons = document.querySelectorAll(`.number`)
+const operatorButtons = document.querySelectorAll(`.operator`)
+const equalButton = document.querySelector(`.equal-sign`)
+const clearButton = document.querySelector(`.all-clear`)
+const backspaceButton = document.querySelector(`.backspace`)
+const previousScreen = document.querySelector(`.previous-screen`)
+const currentScreen = document.querySelector(`.current-screen`)
 
-//set default value for screens and operators
-let operatorValue = ``;
-let previousValue = ``;
+//default values for screen
 let currentValue = ``;
+let previousValue = ``;
+let operatorValue = undefined;
+currentScreen.innerText = currentValue;
+previousScreen.innerText = previousValue;
 
-//allow number buttons to be entered onto screen
-number.forEach((number) => number.addEventListener(`click`, function (e) {
-    inputNumber(e.target.value);
-    currentScreen.value = currentValue;
-}))
-
-function inputNumber(num) {
-    if(currentValue.length <= 20) {
-        currentValue += num;
+//updates text of screens as buttons are pressed
+function updateDisplay() {
+    currentScreen.innerText = currentValue;
+    if(operatorValue != null) {
+       previousScreen.innerText =
+         `${previousValue} ${operatorValue}`
     }
 }
 
-//allow operators to be entered onto screen
-operator.forEach((op) => op.addEventListener(`click`, function (e) {
-    utilizeOperator(e.target.value);
-    previousScreen.value = previousValue + ` ` + operatorValue;
-    currentScreen.value = currentValue;
-}))
+//input functionality for numbers + decimal point
+numberButtons.forEach(button => {
+    button.addEventListener(`click`, () => {
+        inputNumber(button.innerText)
+        updateDisplay()
+    })
+})
 
-function utilizeOperator(op) {
-    operatorValue = op;
+function inputNumber(number) {
+    if (number == `.` && currentValue.includes(`.`)) {
+        return
+    }
+    else {
+        currentValue = currentValue.toString() + number.toString()
+    }
+}
+
+//input functionality for operators
+operatorButtons.forEach(button => {
+    button.addEventListener(`click`, () => {
+        decideOperator(button.innerText)
+        updateDisplay()
+    })
+})
+
+function decideOperator(operator) {
+    if (currentValue == ``) {
+        return
+    }
+    if (currentValue != ``) {
+        calculate()
+    }
+    operatorValue = operator;
     previousValue = currentValue;
     currentValue = ``;
 }
 
-//add just 1 decimal to input screen
-decimal.addEventListener(`click`, function() {
-    inputDecimal();
+//add functionality to equal button
+equalButton.addEventListener(`click`, button => {
+    calculate()
+    updateDisplay()
 })
 
-function inputDecimal() {
-    if(!currentValue.includes(`.`)) {
-        currentValue += `.`;
-        currentScreen.value = currentValue;
+//allow user to get answer + string multiple operations
+function calculate() {
+    let calculatedValue
+    const prev = +previousValue;
+    const current = +currentValue;
+    if (isNaN(prev) || isNaN(current)) {
+        return
     }
+    switch (operatorValue) {
+        case `+`:
+            calculatedValue = prev + current;
+            break;
+        case `-`:
+            calculatedValue = prev - current;
+            break;
+        case `*`:
+            calculatedValue = prev * current;
+            break;
+        case `/`:
+            calculatedValue = prev / current;
+            break;
+        default:
+            return
+    }
+    currentValue = calculatedValue;
+    operatorValue = undefined;
+    previousValue = ``;
 }
 
-//allow AC button to clear screen
-clearButton.addEventListener(`click`, clear);
+//gives all clear button functionality
+clearButton.addEventListener(`click`, button => {
+    clear()
+    updateDisplay()
+})
 
 function clear() {
+    currentValue = ``
     previousValue = ``;
-    currentValue = ``;
-    operatorValue = ``;
-    previousScreen.value = currentValue;
-    currentScreen.value = currentValue;
+    operatorValue = undefined;
 }
 
-//allow backspace button to delete 1 screen character per press
-backspace.addEventListener(`click`, function() {
-    deleteCharacter();
+//gives backspace button functionality
+backspaceButton.addEventListener(`click`, button => {
+    backspace()
+    updateDisplay()
 })
 
-function deleteCharacter() {
-    currentValue = currentValue.slice(0, -1);
-    currentScreen.value = currentValue;
-}
-
-//allow calculated number to be rounded
-function roundNumber(num) {
-    return Math.round(num * 1000) / 1000;
-}
-
-//allow for calculations of numbers
-equal.addEventListener(`click`, function() {
-    if(currentValue != `` && previousValue != ``) {
-        operate()
-        previousScreen.value = ``;
-        if(previousValue.length <= 20) {
-            currentScreen.value = previousValue;
-        } 
-        else {
-            currentScreen.value = previousValue.slice(0, 20) + `...`;
-        }
-    }
-})
-
-function operate() {
-    previousValue = +previousValue;
-    currentValue = +currentValue;
-
-    if(operatorValue == `+`) {
-        add()
-    } else if(operatorValue == `-`) {
-        subtract()
-    } else if(operatorValue == `*`) {
-        multiply()
-    } else{
-        divide()
-    }
-
-    function add() {
-        previousValue += currentValue;
-    } 
-    
-    function subtract() {
-        previousValue -= currentValue;
-    } 
-    
-    function multiply() {
-        previousValue *= currentValue;
-    } 
-    
-    function divide() {
-       previousValue /= currentValue;
-      
-    } 
-
-    previousValue = roundNumber(previousValue);
-
-    previousValue = previousValue.toString();
-    currentValue = previousValue.toString();
+function backspace() {
+    currentValue = currentValue.toString().slice(0, -1);
 }
 
 
