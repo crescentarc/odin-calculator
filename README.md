@@ -3,7 +3,7 @@
 Keyboard Controls (key on left, correponding HTML button on right in parentheses)
 * 0-9 (0-9)
 * . (.)
-* "+", "-", "*", "/"  ("+", "-", "*", "/", respectively)
+* Plus, Hyphen, Asterisk, Forward Slash (Plus(add), Hyphen(subtract), Asterisk(multiply) and Forward Slash(divide), respectively)
 * = (=)
 * Backspace (&larr;)
 * Clear (AC)
