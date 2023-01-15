@@ -16,10 +16,33 @@ previousScreen.innerText = previousValue;
 
 //updates text of screens as buttons are pressed
 function updateDisplay() {
-    currentScreen.innerText = currentValue;
+    currentScreen.innerText = getDisplayNumber(currentValue);
     if(operatorValue != null) {
        previousScreen.innerText =
-         `${previousValue} ${operatorValue}`
+         `${getDisplayNumber(previousValue)} ${operatorValue}`
+    }
+    else {
+        previousScreen.innerText = ``;
+    }
+}
+
+function getDisplayNumber(number) {
+    const stringNumber = number.toString()
+    const integerDigits = parseFloat(stringNumber.split(`.`)[0])
+    const decimalDigits = stringNumber.split(`.`)[1]
+    let integerDisplay
+    if (isNaN(integerDigits)) {
+        integerDisplay = ``;
+    }
+    else {
+        integerDisplay = integerDigits.toLocaleString(`en`, {
+        maximumFractionDigits: 0})
+    }
+    if (decimalDigits != null) {
+        return `${integerDisplay}.${decimalDigits}`
+    }
+    else {
+        return integerDisplay;
     }
 }
 
@@ -115,6 +138,70 @@ backspaceButton.addEventListener(`click`, button => {
 
 function backspace() {
     currentValue = currentValue.toString().slice(0, -1);
+}
+
+//add keyboard support
+window.addEventListener(`keydown`, (e) => {
+    if(
+        e.key == `0` ||
+        e.key == `1` ||
+        e.key == `2` ||
+        e.key == `3` ||
+        e.key == `4` ||
+        e.key == `5` ||
+        e.key == `6` ||
+        e.key == `7` ||
+        e.key == `8` ||
+        e.key == `9` ||
+        e.key == `.` 
+    ){
+        clickNumberButton(e.key)
+    }
+    else if(
+        e.key == `+` ||
+        e.key == `-` ||
+        e.key == `*` ||
+        e.key == `/` 
+    ) {
+        clickOperationButton(e.key)
+    }
+    else if(e.key == `Enter`) {
+        clickEqualButton(e.key);
+    }
+    else if(e.key == `Backspace`) {
+        clickBackSpaceButton(e.key)
+    }
+    else if(e.key == `Escape`) {
+        clickClearButton(e.key)
+    }
+})
+
+function clickNumberButton(key) {
+    numberButtons.forEach(button => {
+        if(button.innerText == key) {
+            button.click();
+        }
+    })
+}
+
+function clickOperationButton(key) {
+    operatorButtons.forEach(button => {
+        if(button.innerText == key) {
+            button.click();
+        }
+    })
+}
+
+function clickEqualButton(key) {
+    equalButton.click()
+}
+
+function clickBackSpaceButton(key) {
+    backspaceButton.click()
+}
+
+function clickClearButton(key) {
+    clearButton.click()
 }
 
 
